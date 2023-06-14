@@ -13,6 +13,22 @@ async function displayAllBooks(req, res) {
     });
   }
 }
+async function displayBookById(req, res) {
+  let sql = await mssql.connect(config);
+  const { id } = req.params;
+  if (sql.connected) {
+    let result = await sql.query(
+      `SELECT * FROM Library.Books WHERE BookID = ${id}`
+    );
+    console.log(result);
+    res.json({
+      success: true,
+      message: "Retrieved book successfully",
+      data: result.recordset,
+    });
+  }
+}
 module.exports = {
   displayAllBooks,
+  displayBookById,
 };
