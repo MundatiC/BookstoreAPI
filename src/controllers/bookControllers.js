@@ -1,7 +1,18 @@
-const mssql = require('mssql');
-const config = require('../config/config')
+const mssql = require("mssql");
+const config = require("../config/config");
 
-
-module.exports = { 
-    
+async function displayAllBooks(req, res) {
+  let sql = await mssql.connect(config);
+  if (sql.connected) {
+    let result = await sql.query("SELECT * FROM Library.Books");
+    console.log(result);
+    res.json({
+      success: true,
+      message: "Retrieved books successfully",
+      data: result.recordset,
+    });
+  }
 }
+module.exports = {
+  displayAllBooks,
+};
