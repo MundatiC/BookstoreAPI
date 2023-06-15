@@ -29,7 +29,26 @@ async function displayBookById(req, res) {
     });
   }
 }
+async function createBook(req, res) {
+  let sql = await mssql.connect(config);
+  if (sql.connected) {
+    const { Title, Author, PublicationYear, Status } = req.body;
+    let request = sql
+      .request()
+      .input("Title", Title)
+      .input("Author", Author)
+      .input("PublicationYear", PublicationYear)
+      .input("Status", Status);
+    let result = await request.execute("InsertBook");
+    res.json({
+      success: true,
+      message: "Book created successfully",
+      data: result.recordset,
+    });
+  }
+}
 module.exports = {
   displayAllBooks,
   displayBookById,
+  createBook,
 };
