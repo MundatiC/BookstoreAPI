@@ -21,12 +21,19 @@ async function displayBookById(req, res) {
     let request = sql.request();
     request.input("BookID", id);
     let result = await request.execute("getBookById");
-    console.log(result);
-    res.json({
-      success: true,
-      message: "Retrieved book successfully",
-      data: result.recordset,
-    });
+    console.log(id);
+    if (result.recordset.length > 0) {
+      res.status(200).json({
+        success: true,
+        message: "Retrieved book successfully",
+        data: result.recordset,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Book does not exist",
+      });
+    }
   }
 }
 async function createBook(req, res) {
