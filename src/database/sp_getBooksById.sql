@@ -1,0 +1,8 @@
+CREATE PROCEDURE getBookByID 
+@BookID INT 
+AS
+BEGIN
+	SELECT *
+	FROM Library.Books
+	WHERE BookID=@BookID
+END;
