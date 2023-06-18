@@ -53,6 +53,8 @@ async function registerUser(req, res) {
   const { Name, Address, ContactNumber, Password } = req.body;
   let sql = await mssql.connect(config);
   let hashed_password = await bcrypt.hash(Password, 8);
+  console.log(Password);
+  console.log(hashed_password);
   if (sql.connected) {
     let result = await sql
       .request()
@@ -72,9 +74,39 @@ async function registerUser(req, res) {
     });
   }
 }
-
+async function loginUser(req, res) {
+  let { MemberID, Password } = req.body;
+  try {
+    let sql = await mssql.connect(config);
+    if (sql.connected) {
+      let result = await sql
+        .request()
+        .input("MemberID", MemberID)
+        .execute("getMemberByID");
+      let user = result.recordset[0];
+      if (user) {
+        let passwordMatch = await bcrypt.compare(Password, user.Password);
+        console.log(user);
+        passwordMatch
+          ? res.json({ success: true, message: "logged in successfully" })
+          : res.json({ success: false, message: "Wrong Credetnials" });
+      } else {
+        res.json({
+          success: false,
+          message: "User not found",
+        });
+      }
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      });
+    }
+  } catch (error) {}
+}
 module.exports = {
   getMemberById,
   getMembersWithLoans,
   registerUser,
+  loginUser,
 };
