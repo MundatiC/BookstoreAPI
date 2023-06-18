@@ -287,4 +287,3 @@ module.exports = {
   createBook,
 
 };
-Collapse
