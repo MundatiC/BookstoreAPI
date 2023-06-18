@@ -51,29 +51,26 @@ async function getMembersWithLoans(req, res) {
   }
 }
 async function registerUser(req, res) {
-  const { Name, Address, ContactNumber, Password } = req.body;
-  let sql = await mssql.connect(config);
-  let hashed_password = await bcrypt.hash(Password, 8);
-  console.log(Password);
-  console.log(hashed_password);
-  if (sql.connected) {
-    let result = await sql
-      .request()
-      .input("Name", Name)
-      .input("Address", Address)
-      .input("ContactNumber", ContactNumber)
-      .input("Password", hashed_password)
-      .execute("registerUser");
-    let all_users = await sql
-      .request()
-      .input("Name", Name)
-      .execute("getRegisteredUser");
-    res.status(200).json({
-      success: true,
-      message: "Registered Successfully",
-      result: all_users.recordset,
-    });
-  }
+  let user = req.body;
+        // let salt = await bycrypt.genSalt(8);
+        // let hashed_pwd = await bycrypt.hash(user.Password, salt)
+        let hashed_pwd = await bcrypt.hash(user.Password, 8);
+
+
+        let sql = await mssql.connect(config);
+
+        if (sql.connected) {
+            let results = await sql.request()
+                .input("Name", user.Name)
+                .input("Address", user.Address)
+                .input("ContactNumber", user.ContactNumber)
+                .input("Password", hashed_pwd)
+                .execute("InsertMemberProcedure")
+
+            console.log(results)
+            res.send(results)
+
+        }
 }
 async function loginUser(req, res) {
   let { MemberID, Password } = req.body;
