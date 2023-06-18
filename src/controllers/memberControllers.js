@@ -61,7 +61,10 @@ async function registerUser(req, res) {
       .input("ContactNumber", ContactNumber)
       .input("Password", hashed_password)
       .execute("registerUser");
-    let all_users = await sql.request().execute("getAllMembers");
+    let all_users = await sql
+      .request()
+      .input("Name", Name)
+      .execute("getRegisteredUser");
     res.status(200).json({
       success: true,
       message: "Registered Successfully",
