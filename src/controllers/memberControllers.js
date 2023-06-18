@@ -3,7 +3,8 @@ const config = require("../config/config");
 const bcrypt = require("bcrypt");
 
 const getAUser = require('../utils/getAMember')
-const {tokenGenerator} = require('../utils/token')
+const { tokenGenerator } = require('../utils/token');
+const { newMemberValidator } = require("../schema/newMemberValidator");
 
 async function getMemberById(req, res) {
   const { id } = req.params;
@@ -53,26 +54,39 @@ async function getMembersWithLoans(req, res) {
   }
 }
 async function registerUser(req, res) {
+
   let user = req.body;
-        // let salt = await bycrypt.genSalt(8);
-        // let hashed_pwd = await bycrypt.hash(user.Password, salt)
-        let hashed_pwd = await bcrypt.hash(user.Password, 8);
+    // let salt = await bycrypt.genSalt(8);
+    // let hashed_pwd = await bycrypt.hash(user.Password, salt)
+
+  try {
+    let { value } = newMemberValidator(user);
+   
+    
+    let hashed_pwd = await bcrypt.hash(user.Password, 8);
 
 
-        let sql = await mssql.connect(config);
+    let sql = await mssql.connect(config);
 
-        if (sql.connected) {
-            let results = await sql.request()
-                .input("Name", user.Name)
-                .input("Address", user.Address)
-                .input("ContactNumber", user.ContactNumber)
-                .input("Password", hashed_pwd)
-                .execute("InsertMemberProcedure")
+    if (sql.connected) {
+      let results = await sql.request()
+        .input("Name", value.Name)
+        .input("Address", value.Address)
+        .input("ContactNumber", value.ContactNumber)
+        .input("Password", hashed_pwd)
+        .execute("InsertMemberProcedure")
 
-            console.log(results)
-            res.send(results)
+      console.log(results)
+      results.rowsAffected.length? res.send({success: true,
+      message: "New member succesfully added"}):
+      res.send()
 
-        }
+    }
+  } catch (error) {
+    res.send(error.message)
+
+  }
+
 }
 async function loginUser(req, res) {
   let { MemberID, Password } = req.body;
@@ -80,39 +94,39 @@ async function loginUser(req, res) {
     let user = await getAUser(MemberID);
 
     if (user) {
-        let passwords_match = await bcrypt.compare(Password, user.Password);
-        if (passwords_match) {
+      let passwords_match = await bcrypt.compare(Password, user.Password);
+      if (passwords_match) {
 
-            let token = await tokenGenerator({
-                MemberID:user.MemberID,
-               
-            })
-            console.log(token)
+        let token = await tokenGenerator({
+          MemberID: user.MemberID,
 
-
-            res.json({
-                success: true,
-                message: "log in successful",
-                token
-            })
-        } else {
-            res.status(401).json({
-                success: false,
-                message: "wrong credentials"
-            })
-        }
-
-        } else {
-        res.status(404).json({
-            success: false,
-            message: "No user found"
         })
+        console.log(token)
+
+
+        res.json({
+          success: true,
+          message: "log in successful",
+          token
+        })
+      } else {
+        res.status(401).json({
+          success: false,
+          message: "wrong credentials"
+        })
+      }
+
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "No user found"
+      })
     }
 
-}
-catch (error) {
+  }
+  catch (error) {
 
-}
+  }
 }
 module.exports = {
   getMemberById,
