@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const router = require('./src/routes/bookRoutes')
 const memberRouter = require('./src/routes/memberRoutes')
+const loanRouter = require('./src/routes/loanRoutes')
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.get('/', (req, res) => {
     res.send("Ok")
 })
 
-app.use(router, memberRouter)
+app.use(router, memberRouter, loanRouter)
 
 
 
