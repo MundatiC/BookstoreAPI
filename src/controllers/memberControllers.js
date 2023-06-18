@@ -74,32 +74,42 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   let { MemberID, Password } = req.body;
   try {
-    let sql = await mssql.connect(config);
-    if (sql.connected) {
-      let result = await sql
-        .request()
-        .input("MemberID", MemberID)
-        .execute("getMemberByID");
-      let user = result.recordset[0];
-      if (user) {
-        let passwordMatch = await bcrypt.compare(Password, user.Password);
-        console.log(user);
-        passwordMatch
-          ? res.json({ success: true, message: "logged in successfully" })
-          : res.json({ success: false, message: "Wrong Credetnials" });
-      } else {
-        res.json({
-          success: false,
-          message: "User not found",
-        });
-      }
-    } else {
-      res.status(500).json({
-        success: false,
-        message: "Internal Server Error",
-      });
+    let user = await getAUser(MemberID);
+
+    if (user) {
+        let passwords_match = await bcrypt.compare(Password, user.Password);
+        if (passwords_match) {
+
+            let token = await tokenGenerator({
+                MemberID:user.MemberID,
+                roles: "admin"
+            })
+            console.log(token)
+
+
+            res.json({
+                success: true,
+                message: "log in successful",
+                token
+            })
+        } else {
+            res.status(401).json({
+                success: false,
+                message: "wrong credentials"
+            })
+        }
+
+        } else {
+        res.status(404).json({
+            success: false,
+            message: "No user found"
+        })
     }
-  } catch (error) {}
+
+}
+catch (error) {
+
+}
 }
 module.exports = {
   getMemberById,
