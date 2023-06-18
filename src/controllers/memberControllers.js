@@ -2,6 +2,7 @@ const mssql = require("mssql");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
 
+
 async function getMemberById(req, res) {
   const { id } = req.params;
 
@@ -89,7 +90,7 @@ async function loginUser(req, res) {
         console.log(user);
         passwordMatch
           ? res.json({ success: true, message: "logged in successfully" })
-          : res.json({ success: false, message: "Wrong Credetnials" });
+          : res.json({ success: false, message: "Wrong Credetnials" })
       } else {
         res.json({
           success: false,
@@ -102,8 +103,14 @@ async function loginUser(req, res) {
         message: "Internal Server Error",
       });
     }
-  } catch (error) {}
-}
+  }
+
+  catch (error) {
+
+  }
+};
+
+
 module.exports = {
   getMemberById,
   getMembersWithLoans,
