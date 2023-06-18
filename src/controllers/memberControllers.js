@@ -2,6 +2,9 @@ const mssql = require("mssql");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
 
+const getAUser = require('../utils/getAMember')
+const {tokenGenerator} = require('../utils/token')
+
 async function getMemberById(req, res) {
   const { id } = req.params;
 
@@ -82,7 +85,7 @@ async function loginUser(req, res) {
 
             let token = await tokenGenerator({
                 MemberID:user.MemberID,
-                roles: "admin"
+               
             })
             console.log(token)
 
