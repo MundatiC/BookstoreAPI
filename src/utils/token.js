@@ -3,7 +3,7 @@ require('dotenv').config()
 
 
 const tokenGenerator = async(data) => {
-    return jwt.sign(data, process.env.SECRET, {expiresIn: '20s'})
+    return jwt.sign(data, process.env.SECRET, {expiresIn: '60s'})
 }
 
 function tokenVerifier(token) {
