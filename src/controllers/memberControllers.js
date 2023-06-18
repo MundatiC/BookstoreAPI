@@ -2,33 +2,6 @@ const mssql = require("mssql");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
 
-async function createMember(req, res) {
-  const { Name, Address, ContactNumber } = req.body;
-
-  let sql = await mssql.connect(config);
-
-  if (sql.connected) {
-    const request = sql.request();
-
-    request
-      .input("Name", Name)
-
-      .input("Address", Address)
-
-      .input("ContactNumber", ContactNumber);
-
-    let result = await request.execute("InsertMemberProcedure");
-
-    res.json({
-      success: true,
-
-      message: "Created member successfully",
-
-      data: result.recordset,
-    });
-  }
-}
-
 async function getMemberById(req, res) {
   const { id } = req.params;
 
@@ -98,7 +71,6 @@ async function registerUser(req, res) {
 }
 
 module.exports = {
-  createMember,
   getMemberById,
   getMembersWithLoans,
   registerUser,
