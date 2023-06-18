@@ -1,116 +1,105 @@
 const mssql = require("mssql");
 const config = require("../config/config");
+const bcrypt = require("bcrypt");
 
 async function createMember(req, res) {
+  const { Name, Address, ContactNumber } = req.body;
 
-    const { Name, Address, ContactNumber } = req.body;
+  let sql = await mssql.connect(config);
 
-    let sql = await mssql.connect(config);
+  if (sql.connected) {
+    const request = sql.request();
 
-    if (sql.connected) {
+    request
+      .input("Name", Name)
 
-        const request = sql.request();
+      .input("Address", Address)
 
-        request.input("Name", Name)
+      .input("ContactNumber", ContactNumber);
 
-            .input("Address", Address)
+    let result = await request.execute("InsertMemberProcedure");
 
-            .input("ContactNumber", ContactNumber);
+    res.json({
+      success: true,
 
-        let result = await request.execute("InsertMemberProcedure");
+      message: "Created member successfully",
 
-        res.json({
-
-            success: true,
-
-            message: "Created member successfully",
-
-            data: result.recordset
-
-        });
-
-    }
-
+      data: result.recordset,
+    });
+  }
 }
 
-
-
 async function getMemberById(req, res) {
+  const { id } = req.params;
 
-    const { id } = req.params;
+  let sql = await mssql.connect(config);
 
+  if (sql.connected) {
+    const request = sql.request();
 
+    request.input("MemberID", id);
 
+    let result = await request.execute("GetMemberByIdProcedure");
 
-    let sql = await mssql.connect(config);
+    if (result.recordset.length > 0) {
+      res.json({
+        success: true,
 
-    if (sql.connected) {
+        message: "Retrieved member successfully",
 
-        const request = sql.request();
+        data: result.recordset[0],
+      });
+    } else {
+      res.status(404).json({
+        success: false,
 
-        request.input("MemberID", id);
-
-        let result = await request.execute("GetMemberByIdProcedure");
-
-
-
-        if (result.recordset.length > 0) {
-
-            res.json({
-
-                success: true,
-
-                message: "Retrieved member successfully",
-
-                data: result.recordset[0]
-
-            });
-
-        } else {
-
-            res.status(404).json({
-
-                success: false,
-
-                message: "Member not found"
-
-            });
-
-        }
-
+        message: "Member not found",
+      });
     }
-
+  }
 }
 
 async function getMembersWithLoans(req, res) {
+  let sql = await mssql.connect(config);
 
-    let sql = await mssql.connect(config);
+  if (sql.connected) {
+    const request = sql.request();
 
-    if (sql.connected) {
+    let result = await request.execute("GetMembersWithLoansProcedure");
 
-        const request = sql.request();
+    res.json({
+      success: true,
 
-        let result = await request.execute("GetMembersWithLoansProcedure");
+      message: "Retrieved members with loans successfully",
 
-
-
-        res.json({
-
-            success: true,
-
-            message: "Retrieved members with loans successfully",
-
-            data: result.recordset
-
-        });
-
-    }
-
+      data: result.recordset,
+    });
+  }
+}
+async function registerUser(req, res) {
+  const { Name, Address, ContactNumber, Password } = req.body;
+  let sql = await mssql.connect(config);
+  let hashed_password = await bcrypt.hash(Password, 8);
+  if (sql.connected) {
+    let result = await sql
+      .request()
+      .input("Name", Name)
+      .input("Address", Address)
+      .input("ContactNumber", ContactNumber)
+      .input("Password", hashed_password)
+      .execute("registerUser");
+    let all_users = await sql.request().execute("getAllMembers");
+    res.status(200).json({
+      success: true,
+      message: "Registered Successfully",
+      result: all_users.recordset,
+    });
+  }
 }
 
 module.exports = {
-    createMember,
-    getMemberById,
-    getMembersWithLoans,
+  createMember,
+  getMemberById,
+  getMembersWithLoans,
+  registerUser,
 };
-
