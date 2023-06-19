@@ -131,10 +131,17 @@ async function registerUser(req, res) {
         .execute("InsertMemberProcedure")
 
       console.log(results)
-      res.send({success: true,
-      message: "New member succesfully added",
-      results: results.recordset[0]
-    })
+      if (results.rowsAffected[0] > 0) {
+        res.status(201).send({
+          success: true,
+          message: "New member successfully added"
+        });
+      } else {
+        res.status(500).send({
+          success: false,
+          message: "An error occurred"
+        });
+      }
 
     }
   } catch (error) {
