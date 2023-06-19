@@ -5,7 +5,7 @@ CREATE PROCEDURE InsertMemberProcedure
   @Password VARCHAR(255)
 AS
 BEGIN
-  SET NOCOUNT ON;
+ SELECT @@ROWCOUNT AS RowsAffected;
 
   INSERT INTO Library.Members (Name, Address, ContactNumber, Password)
   VALUES (@Name, @Address, @ContactNumber, @Password);
