@@ -5,53 +5,107 @@ const bcrypt = require("bcrypt");
 const getAUser = require('../utils/getAMember')
 const { tokenGenerator } = require('../utils/token');
 const { newMemberValidator } = require("../schema/newMemberValidator");
+const { tokenVerifier } = require('../utils/token')
 
 async function getMemberById(req, res) {
-  const { id } = req.params;
+  let token = req.headers['authorization'].split(' ')[1];
+  try{
 
-  let sql = await mssql.connect(config);
+    let user = await tokenVerifier(token);
+    const { id } = req.params;
 
-  if (sql.connected) {
-    const request = sql.request();
+    if(user){
+            
+    let sql = await mssql.connect(config);
+  
+    if (sql.connected) {
+      const request = sql.request();
+  
+      request.input("MemberID", id);
+  
+      let result = await request.execute("GetMemberByIdProcedure");
+  
+      if (result.recordset.length > 0) {
+        res.json({
+          success: true,
+  
+          message: "Retrieved member successfully",
+  
+          data: result.recordset[0],
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+  
+          message: "Member not found",
+        });
+      }
+    }
+    }
 
-    request.input("MemberID", id);
 
-    let result = await request.execute("GetMemberByIdProcedure");
+  } catch(error){
+    if(error.message.includes('token') || error.message.includes('invalid') ){
+      res.status(403).json(
+        {
+          success: false,
+          message:'Login again'
+        }
+      )
 
-    if (result.recordset.length > 0) {
-      res.json({
-        success: true,
-
-        message: "Retrieved member successfully",
-
-        data: result.recordset[0],
-      });
-    } else {
-      res.status(404).json({
+    } else if(error.message.includes('expired')){
+      res.status(403).json({
         success: false,
-
-        message: "Member not found",
-      });
+        message: 'Token expired login again'
+      })
     }
   }
+  
 }
 
 async function getMembersWithLoans(req, res) {
-  let sql = await mssql.connect(config);
+  let token = req.headers['authorization'].split(' ')[1];
 
-  if (sql.connected) {
-    const request = sql.request();
+  try{
 
-    let result = await request.execute("GetMembersWithLoansProcedure");
+    let user = await tokenVerifier(token);
+    if(user){
+      let sql = await mssql.connect(config);
 
-    res.json({
-      success: true,
+      if (sql.connected) {
+        const request = sql.request();
+    
+        let result = await request.execute("GetMembersWithLoansProcedure");
+    
+        res.json({
+          success: true,
+    
+          message: "Retrieved members with loans successfully",
+    
+          data: result.recordset,
+        });
+      }
+    }
+   
 
-      message: "Retrieved members with loans successfully",
+  } catch(error){
+    if (error.message.includes('token') || error.message.includes('invalid')) {
+      res.status(403).json(
+        {
+          success: false,
+          message: 'Login again'
+        }
+      )
 
-      data: result.recordset,
-    });
+    } else if (error.message.includes('expired')) {
+      res.status(403).json({
+        success: false,
+        message: 'Token expired login again'
+      })
+    }
+
   }
+  
 }
 async function registerUser(req, res) {
 
@@ -77,9 +131,10 @@ async function registerUser(req, res) {
         .execute("InsertMemberProcedure")
 
       console.log(results)
-      results.rowsAffected.length? res.send({success: true,
-      message: "New member succesfully added"}):
-      res.send()
+      res.send({success: true,
+      message: "New member succesfully added",
+      results: results.recordset[0]
+    })
 
     }
   } catch (error) {
