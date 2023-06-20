@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const getAUser = require('../utils/getAMember')
 const { tokenGenerator } = require('../utils/token');
-const { newMemberValidator } = require("../schema/newMemberValidator");
+const { newMemberValidator } = require("../validators/newMemberValidator");
 const { tokenVerifier } = require('../utils/token')
 
 async function getMemberById(req, res) {
@@ -114,7 +114,7 @@ async function registerUser(req, res) {
     // let hashed_pwd = await bycrypt.hash(user.Password, salt)
 
   try {
-    let { value } = newMemberValidator(user);
+    let { value } = req
    
     
     let hashed_pwd = await bcrypt.hash(user.Password, 8);
@@ -134,7 +134,8 @@ async function registerUser(req, res) {
       if (results.rowsAffected[0] > 0) {
         res.status(201).send({
           success: true,
-          message: "New member successfully added"
+          message: "New member successfully added",
+      
         });
       } else {
         res.status(500).send({
