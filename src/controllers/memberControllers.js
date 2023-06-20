@@ -127,7 +127,9 @@ async function registerUser(req, res) {
         .input("Name", value.Name)
         .input("Address", value.Address)
         .input("ContactNumber", value.ContactNumber)
+        .input("Email", value.Email) 
         .input("Password", hashed_pwd)
+        
         .execute("InsertMemberProcedure")
 
       console.log(results)
@@ -152,9 +154,9 @@ async function registerUser(req, res) {
 
 }
 async function loginUser(req, res) {
-  let { MemberID, Password } = req.body;
+  let { Email, Password } = req.body;
   try {
-    let user = await getAUser(MemberID);
+    let user = await getAUser(Email);
 
     if (user) {
       let passwords_match = await bcrypt.compare(Password, user.Password);
