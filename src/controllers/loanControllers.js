@@ -4,14 +4,14 @@ const config = require("../config/config");
 const { tokenVerifier } = require('../utils/token')
 
 async function borrowBook(req, res) {
-  let token = req.headers['authorization'].split(" ")[1]
 
   try {
 
-    let user = await tokenVerifier(token)
+    let user = req.user
+    console.log(user)
     const { memberName, bookTitle } = req.body;
 
-    if (user) {
+  
       let sql = await mssql.connect(config);
       if (sql.connected) {
         const request = sql.request();
@@ -33,7 +33,6 @@ async function borrowBook(req, res) {
         }
       }
 
-    }
 
   } catch (error) {
 
@@ -59,15 +58,16 @@ async function borrowBook(req, res) {
 }
 
 async function returnBook(req, res) {
-  const { tokenVerifier } = require('../utils/token')
+  
 
-  let token = req.headers['authorization'].split(" ")[1]
+
 
   try {
     const { memberName, bookTitle } = req.body;
-    let user = await tokenVerifier(token)
+    let user = req.user
+    console.log(user)
 
-    if (user) {
+    
       let sql = await mssql.connect(config);
       if (sql.connected) {
         const request = sql.request();
@@ -90,7 +90,7 @@ async function returnBook(req, res) {
         }
       }
 
-    }
+    
 
 
 

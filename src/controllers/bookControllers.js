@@ -10,39 +10,40 @@ const { tokenVerifier } = require("../utils/token");
 
 async function displayAllBooks(req, res) {
 
-  let token = req.headers['authorization'].split(' ')[1];
+
 
   try {
 
-    let user = await tokenVerifier(token);
-
-    if (user) {
-
-      let sql = await mssql.connect(config);
-
-      if (sql.connected) {
-
-        let request = sql.request();
-
-        let result = await request.execute("getAvailableBooks");
-
-        console.log(result);
-
-        res.json({
-
-          success: true,
-
-          message: "Retrieved books successfully",
-
-          data: result.recordset,
-
-        });
-
-      }
+    let user = req.user
+    console.log(user)
 
 
+
+    let sql = await mssql.connect(config);
+
+    if (sql.connected) {
+
+      let request = sql.request();
+
+      let result = await request.execute("getAvailableBooks");
+
+      
+
+      res.json({
+
+        success: true,
+
+        message: "Retrieved books successfully",
+
+        data: result.recordset,
+
+      });
 
     }
+
+
+
+
 
 
 
