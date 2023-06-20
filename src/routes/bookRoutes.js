@@ -14,6 +14,6 @@ const tokenValidateMiddleware = require('../middlewares/tokenValidateMiddleware'
 
 
 bookRouter.get("/books" , tokenValidateMiddleware,displayAllBooks); 
-bookRouter.get("/books/:id", displayBookById);
-bookRouter.post("/books", createBook);
+bookRouter.get("/books/:id", tokenValidateMiddleware, displayBookById);
+bookRouter.post("/books", tokenValidateMiddleware, createBook);
 module.exports = bookRouter;

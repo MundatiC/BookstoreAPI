@@ -89,17 +89,17 @@ async function displayBookById(req, res) {
 
 
 
-  let token = req.headers['authorization'].split(" ")[1]
+
 
   try {
 
 
 
-    let user = await tokenVerifier(token)
+    let user = req.user
 
 
 
-    if (user) {
+    
 
       let sql = await mssql.connect(config);
 
@@ -143,7 +143,7 @@ async function displayBookById(req, res) {
 
 
 
-    }
+    
 
 
 
@@ -193,13 +193,13 @@ async function createBook(req, res) {
 
 
 
-  let token = req.headers['authorization'].split(" ")[1]
+  
 
   try {
 
-    let user = await tokenVerifier(token)
+    let user = req.user
 
-    if (user) {
+    
 
       let sql = await mssql.connect(config);
 
@@ -235,7 +235,7 @@ async function createBook(req, res) {
 
 
 
-    }
+    
 
 
 

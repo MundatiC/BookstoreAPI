@@ -3,28 +3,30 @@ CREATE SCHEMA Library;
 GO
 CREATE TABLE Library.Books (
   BookID INT IDENTITY(1,1) PRIMARY KEY,
-  Title VARCHAR(255),
-  Author VARCHAR(255),
-  PublicationYear INT,
-  Status VARCHAR(20)
+  Title VARCHAR(255) NOT NULL UNIQUE,
+  Author VARCHAR(255) NOT NULL,
+  PublicationYear INT NOT NULL,
+  Status VARCHAR(20) NOT NULL
 );
 
 -- Create the Members table
 CREATE TABLE Library.Members (
   MemberID INT IDENTITY(1,1) PRIMARY KEY,
-  Name VARCHAR(255),
-  Address VARCHAR(255),
-  ContactNumber VARCHAR(20)
+  Name VARCHAR(255) NOT NULL,
+  Address VARCHAR(255) NOT NULL,
+  ContactNumber VARCHAR(20) NOT NULL,
+  Email VARCHAR(255) NOT NULL UNIQUE,
+  Password VARCHAR(255) NOT NULL
 );
 
 
 -- Create the Loans table
 CREATE TABLE Library.Loans (
   LoanID INT IDENTITY(1,1) PRIMARY KEY,
-  BookID INT,
-  MemberID INT,
-  LoanDate DATE,
-  ReturnDate DATE,
+  BookID INT NOT NULL,
+  MemberID INT NOT NULL,
+  LoanDate DATE NOT NULL,
+  ReturnDate DATE NOT NULL,
   FOREIGN KEY (BookID) REFERENCES Library.Books (BookID),
   FOREIGN KEY (MemberID) REFERENCES Library.Members (MemberID)
 );

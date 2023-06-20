@@ -7,14 +7,16 @@ const { tokenGenerator } = require('../utils/token');
 const { newMemberValidator } = require("../validators/newMemberValidator");
 const { tokenVerifier } = require('../utils/token')
 
+const { sendMail } = require('../utils/sendMail')
+
 async function getMemberById(req, res) {
-  let token = req.headers['authorization'].split(' ')[1];
+
   try{
 
-    let user = await tokenVerifier(token);
+    let user = req.user;
     const { id } = req.params;
 
-    if(user){
+    
             
     let sql = await mssql.connect(config);
   
@@ -41,7 +43,7 @@ async function getMemberById(req, res) {
         });
       }
     }
-    }
+    
 
 
   } catch(error){
@@ -64,12 +66,12 @@ async function getMemberById(req, res) {
 }
 
 async function getMembersWithLoans(req, res) {
-  let token = req.headers['authorization'].split(' ')[1];
+
 
   try{
 
-    let user = await tokenVerifier(token);
-    if(user){
+    let user = req.user;
+    
       let sql = await mssql.connect(config);
 
       if (sql.connected) {
@@ -85,7 +87,7 @@ async function getMembersWithLoans(req, res) {
           data: result.recordset,
         });
       }
-    }
+    
    
 
   } catch(error){
@@ -134,6 +136,16 @@ async function registerUser(req, res) {
 
       console.log(results)
       if (results.rowsAffected[0] > 0) {
+       
+        const message = {
+          to: [user.Email],
+          from: process.env.EMAIL_USER,
+          subject: 'Welcome to Our Library',
+          text: `Dear ${user.Name},\n\nThank you for registering with our library. We are excited to have you as a member. Enjoy your reading experience!\n\nBest regards,\nThe Library Team`,
+        };
+
+        await sendMail(message);
+
         res.status(201).send({
           success: true,
           message: "New member successfully added",
