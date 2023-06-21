@@ -1,14 +1,8 @@
 CREATE PROCEDURE BorrowBookProcedure
-  @MemberName VARCHAR(255),
+  @MemberID INT,
   @BookTitle VARCHAR(255)
 AS
 BEGIN
-  -- Find the member ID based on the provided name
-  DECLARE @MemberID INT;
-  SELECT @MemberID = MemberID
-  FROM Library.Members
-  WHERE Name = @MemberName;
-
   -- Find the book ID based on the provided title
   DECLARE @BookID INT;
   SELECT @BookID = BookID

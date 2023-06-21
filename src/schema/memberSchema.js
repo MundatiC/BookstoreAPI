@@ -16,4 +16,5 @@ const new_member_Schema = joi
   })
   .with("Password", "c_password");
 
-module.exports = { new_member_Schema };
+
+module.exports = { new_member_Schema }

@@ -8,14 +8,14 @@ async function borrowBook(req, res) {
   try {
 
     let user = req.user
-    console.log(user)
-    const { memberName, bookTitle } = req.body;
+    console.log(user.MemberID)
+    const { bookTitle } = req.body;
 
   
       let sql = await mssql.connect(config);
       if (sql.connected) {
         const request = sql.request();
-        request.input("MemberName", memberName);
+        request.input("MemberID", user.MemberID);
         request.input("BookTitle", bookTitle);
         let result = await request.execute("BorrowBookProcedure");
 
@@ -63,7 +63,7 @@ async function returnBook(req, res) {
 
 
   try {
-    const { memberName, bookTitle } = req.body;
+    const {  bookTitle } = req.body;
     let user = req.user
     console.log(user)
 
@@ -71,7 +71,7 @@ async function returnBook(req, res) {
       let sql = await mssql.connect(config);
       if (sql.connected) {
         const request = sql.request();
-        request.input("MemberName", memberName);
+        request.input("MemberID", user.MemberID);
         request.input("BookTitle", bookTitle);
         let result = await request.execute("ReturnBookProcedure");
 

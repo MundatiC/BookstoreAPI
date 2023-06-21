@@ -9,6 +9,8 @@ const { newMemberValidator } = require("../validators/newMemberValidator");
 const { tokenVerifier } = require("../utils/token");
 const sendMail = require("../utils/sendMail");
 
+
+
 async function getMemberById(req, res) {
   try {
     let user = req.user;
@@ -114,15 +116,18 @@ async function registerUser(req, res) {
       // } catch (error) {
       //   console.log(error);
       // }
-      const message = {
-        to: value.Email,
-        from: process.env.EMAIL_USER,
-        subject: "Hello from Bookstore API",
-        text: `Dear ${value.Name},\n Welcome to BookstoreAPI! We're thrilled to have you as a new member of our community. This email serves as a warm introduction and a guide to help you get started on our platform.`,
-      };
-      sendMail(message);
-      console.log(results);
+     
       if (results.rowsAffected[0] > 0) {
+       
+        const message = {
+          to: value.Email,
+          from: process.env.EMAIL_USER,
+          subject: "Hello from Bookstore API",
+          text: `Dear ${value.Name},\n Welcome to BookstoreAPI! We're thrilled to have you as a new member of our community. This email serves as a warm introduction and a guide to help you get started on our platform.`,
+        };
+        await sendMail(message);
+        console.log(results);
+
         res.status(201).send({
           success: true,
           message: "New member successfully added",
@@ -139,9 +144,9 @@ async function registerUser(req, res) {
   }
 }
 async function loginUser(req, res) {
-  let { MemberID, Password } = req.body;
+  let { Email, Password } = req.body;
   try {
-    let user = await getAUser(MemberID);
+    let user = await getAUser(Email);
 
     if (user) {
       let passwords_match = await bcrypt.compare(Password, user.Password);
