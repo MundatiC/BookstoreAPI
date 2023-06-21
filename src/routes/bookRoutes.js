@@ -1,5 +1,5 @@
 const express = require("express");
-const {tokenVerifier} = require('../utils/token')
+const { tokenVerifier } = require("../utils/token");
 
 const bookRouter = express.Router();
 const {
@@ -8,12 +8,15 @@ const {
   createBook,
 } = require("../controllers/bookControllers");
 
+const tokenValidateMiddleware = require("../middlewares/tokenValidateMiddleware");
+const newBookMiddleware = require("../middlewares/newBookMiddleware");
 
-const tokenValidateMiddleware = require('../middlewares/tokenValidateMiddleware');
-
-
-
-bookRouter.get("/books" , tokenValidateMiddleware,displayAllBooks); 
-bookRouter.get("/books/:id", displayBookById);
-bookRouter.post("/books", createBook);
+bookRouter.get("/books", tokenValidateMiddleware, displayAllBooks);
+bookRouter.get("/books/:id", tokenValidateMiddleware, displayBookById);
+bookRouter.post(
+  "/books",
+  tokenValidateMiddleware,
+  newBookMiddleware,
+  createBook
+);
 module.exports = bookRouter;
