@@ -1,7 +1,8 @@
 const mssql = require("mssql");
 const config = require("../config/config");
 
-const { tokenVerifier } = require('../utils/token')
+const { tokenVerifier } = require('../utils/token');
+const sendMail = require("../utils/sendMail");
 
 async function borrowBook(req, res) {
 
@@ -9,6 +10,7 @@ async function borrowBook(req, res) {
 
     let user = req.user
     console.log(user.MemberID)
+    console.log(user.Name)
     const { bookID } = req.body;
 
   
@@ -20,6 +22,8 @@ async function borrowBook(req, res) {
         let result = await request.execute("BorrowBookProcedure");
 
         if (result.recordset.length === 0) {
+         
+          
           res.json({
             success: false,
             message: "Member or book not found",
@@ -30,6 +34,15 @@ async function borrowBook(req, res) {
             message: "Book borrowed successfully",
             data: result.recordset[0],
           });
+          const BookName = result.recordset[0].Title;
+          const message = {
+            to: user.Email,
+            from: process.env.EMAIL_USER,
+            subject: "Book Borrowing from Bookstore API",
+            text: `Dear ${user.Name},\n\nThank you for borrowing ${BookName}, a book from BookstoreAPI. We have successfully processed your request. The book is now available for you to enjoy.\n\nPlease remember to return the book by the due date to avoid any late fees. If you have any questions or need assistance, feel free to contact our support team.\n\nHappy reading!\n\nThank you,\nThe BookstoreAPI Team`,
+          };
+          await sendMail(message);
+          
         }
       }
 
@@ -75,19 +88,32 @@ async function returnBook(req, res) {
         request.input("BookID", bookID);
         let result = await request.execute("ReturnBookProcedure");
 
-        const returnStatus = result.recordset[0].ReturnStatus;
-        if (returnStatus === 1) {
+        
+        if (result.recordset.length === 0) {
+          res.json({
+            success: false,
+            message: "Failed to return the book. Please check the provided information.",
+          });
+         
+        } else {
           res.json({
             success: true,
             message: "Book returned successfully",
             result: result.recordset[0],
           });
-        } else {
-          res.json({
-            success: false,
-            message: "Failed to return the book. Please check the provided information.",
-          });
+
+          const BookName = result.recordset[0].Title;
+
+          const message = {
+            to: user.Email,
+            from: process.env.EMAIL_USER,
+            subject: "Book Return from Bookstore API",
+            text: `Dear ${user.Name},\n\nThank you for returning ${BookName},a book from BookstoreAPI. We have successfully processed your return. We hope you enjoyed reading the book and found it insightful.\n\nIf you have any further questions or need assistance, please feel free to reach out to our support team.\n\nThank you,\nThe BookstoreAPI Team`,
+          };
+          await sendMail(message);
         }
+       
+         
       }
 
     

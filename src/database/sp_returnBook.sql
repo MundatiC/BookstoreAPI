@@ -9,5 +9,8 @@ BEGIN
     AND MemberID = @MemberID;
 
   -- Return a flag indicating the success of the operation
-  SELECT CASE WHEN @@ROWCOUNT > 0 THEN 1 ELSE 0 END AS ReturnStatus;
+  SELECT B.*, M.Name AS MemberName
+  FROM Library.Books AS B
+  JOIN Library.Members AS M ON M.MemberID = @MemberID
+  WHERE B.BookID = @BookID;
 END
