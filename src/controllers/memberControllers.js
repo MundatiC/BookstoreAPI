@@ -153,6 +153,8 @@ async function loginUser(req, res) {
       if (passwords_match) {
         let token = await tokenGenerator({
           MemberID: user.MemberID,
+          Email: user.Email,
+          Name: user.Name,
         });
         console.log(token);
 

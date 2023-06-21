@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const tokenGenerator = async (data) => {
-  return jwt.sign(data, process.env.SECRET, { expiresIn: "420s" });
+  return jwt.sign(data, process.env.SECRET, { expiresIn: "3600s" });
 };
 
 function tokenVerifier(token) {
