@@ -8,87 +8,85 @@ const { newMemberValidator } = require("../validators/newMemberValidator");
 const { tokenVerifier } = require('../utils/token')
 
 async function getMemberById(req, res) {
-  let token = req.headers['authorization'].split(' ')[1];
-  try{
+  try {
 
-    let user = await tokenVerifier(token);
+    let user = req.user;
     const { id } = req.params;
 
-    if(user){
-            
+
+
     let sql = await mssql.connect(config);
-  
+
     if (sql.connected) {
       const request = sql.request();
-  
+
       request.input("MemberID", id);
-  
+
       let result = await request.execute("GetMemberByIdProcedure");
-  
+
       if (result.recordset.length > 0) {
         res.json({
           success: true,
-  
+
           message: "Retrieved member successfully",
-  
+
           data: result.recordset[0],
         });
       } else {
         res.status(404).json({
           success: false,
-  
+
           message: "Member not found",
         });
       }
     }
-    }
 
 
-  } catch(error){
-    if(error.message.includes('token') || error.message.includes('invalid') ){
+
+  } catch (error) {
+    if (error.message.includes('token') || error.message.includes('invalid')) {
       res.status(403).json(
         {
           success: false,
-          message:'Login again'
+          message: 'Login again'
         }
       )
 
-    } else if(error.message.includes('expired')){
+    } else if (error.message.includes('expired')) {
       res.status(403).json({
         success: false,
         message: 'Token expired login again'
       })
     }
   }
-  
+
 }
 
 async function getMembersWithLoans(req, res) {
-  let token = req.headers['authorization'].split(' ')[1];
 
-  try{
+  try {
 
-    let user = await tokenVerifier(token);
-    if(user){
-      let sql = await mssql.connect(config);
+    let user = req.user;
 
-      if (sql.connected) {
-        const request = sql.request();
-    
-        let result = await request.execute("GetMembersWithLoansProcedure");
-    
-        res.json({
-          success: true,
-    
-          message: "Retrieved members with loans successfully",
-    
-          data: result.recordset,
-        });
-      }
+    let sql = await mssql.connect(config);
+
+    if (sql.connected) {
+      const request = sql.request();
+
+      let result = await request.execute("GetMembersWithLoansProcedure");
+
+      res.json({
+        success: true,
+
+        message: "Retrieved members with loans successfully",
+
+        data: result.recordset,
+      });
     }
-   
 
-  } catch(error){
+
+
+  } catch (error) {
     if (error.message.includes('token') || error.message.includes('invalid')) {
       res.status(403).json(
         {
@@ -105,18 +103,18 @@ async function getMembersWithLoans(req, res) {
     }
 
   }
-  
+
 }
 async function registerUser(req, res) {
 
   let user = req.body;
-    // let salt = await bycrypt.genSalt(8);
-    // let hashed_pwd = await bycrypt.hash(user.Password, salt)
+  // let salt = await bycrypt.genSalt(8);
+  // let hashed_pwd = await bycrypt.hash(user.Password, salt)
 
   try {
     let { value } = req
-   
-    
+
+
     let hashed_pwd = await bcrypt.hash(user.Password, 8);
 
 
@@ -135,7 +133,7 @@ async function registerUser(req, res) {
         res.status(201).send({
           success: true,
           message: "New member successfully added",
-      
+
         });
       } else {
         res.status(500).send({
