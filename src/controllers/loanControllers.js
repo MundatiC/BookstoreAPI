@@ -9,14 +9,14 @@ async function borrowBook(req, res) {
 
     let user = req.user
     console.log(user.MemberID)
-    const { bookTitle } = req.body;
+    const { bookID } = req.body;
 
   
       let sql = await mssql.connect(config);
       if (sql.connected) {
         const request = sql.request();
         request.input("MemberID", user.MemberID);
-        request.input("BookTitle", bookTitle);
+        request.input("BookID", bookID);
         let result = await request.execute("BorrowBookProcedure");
 
         if (result.recordset.length === 0) {
@@ -63,7 +63,7 @@ async function returnBook(req, res) {
 
 
   try {
-    const {  bookTitle } = req.body;
+    const {  bookID } = req.body;
     let user = req.user
     console.log(user)
 
@@ -72,7 +72,7 @@ async function returnBook(req, res) {
       if (sql.connected) {
         const request = sql.request();
         request.input("MemberID", user.MemberID);
-        request.input("BookTitle", bookTitle);
+        request.input("BookID", bookID);
         let result = await request.execute("ReturnBookProcedure");
 
         const returnStatus = result.recordset[0].ReturnStatus;

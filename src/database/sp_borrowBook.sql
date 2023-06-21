@@ -1,14 +1,8 @@
 CREATE PROCEDURE BorrowBookProcedure
   @MemberID INT,
-  @BookTitle VARCHAR(255)
+  @BookID INT
 AS
 BEGIN
-  -- Find the book ID based on the provided title
-  DECLARE @BookID INT;
-  SELECT @BookID = BookID
-  FROM Library.Books
-  WHERE Title = @BookTitle;
-
   -- Get the loan date and calculate the return date
   DECLARE @LoanDate DATE = GETDATE();
   DECLARE @ReturnDate DATE = DATEADD(DAY, 10, @LoanDate);

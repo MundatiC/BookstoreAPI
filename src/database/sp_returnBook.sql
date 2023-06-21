@@ -1,14 +1,8 @@
 CREATE PROCEDURE ReturnBookProcedure
   @MemberID INT,
-  @BookTitle VARCHAR(255)
+  @BookID INT
 AS
 BEGIN
-  -- Find the book ID based on the provided title
-  DECLARE @BookID INT;
-  SELECT @BookID = BookID
-  FROM Library.Books
-  WHERE Title = @BookTitle;
-
   -- Delete the loan record from the Loans table
   DELETE FROM Library.Loans
   WHERE BookID = @BookID
