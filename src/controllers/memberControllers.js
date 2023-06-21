@@ -10,36 +10,33 @@ const { tokenVerifier } = require("../utils/token");
 const sendMail = require("../utils/sendMail");
 
 async function getMemberById(req, res) {
-  let token = req.headers["authorization"].split(" ")[1];
   try {
-    let user = await tokenVerifier(token);
+    let user = req.user;
     const { id } = req.params;
 
-    if (user) {
-      let sql = await mssql.connect(config);
+    let sql = await mssql.connect(config);
 
-      if (sql.connected) {
-        const request = sql.request();
+    if (sql.connected) {
+      const request = sql.request();
 
-        request.input("MemberID", id);
+      request.input("MemberID", id);
 
-        let result = await request.execute("GetMemberByIdProcedure");
+      let result = await request.execute("GetMemberByIdProcedure");
 
-        if (result.recordset.length > 0) {
-          res.json({
-            success: true,
+      if (result.recordset.length > 0) {
+        res.json({
+          success: true,
 
-            message: "Retrieved member successfully",
+          message: "Retrieved member successfully",
 
-            data: result.recordset[0],
-          });
-        } else {
-          res.status(404).json({
-            success: false,
+          data: result.recordset[0],
+        });
+      } else {
+        res.status(404).json({
+          success: false,
 
-            message: "Member not found",
-          });
-        }
+          message: "Member not found",
+        });
       }
     }
   } catch (error) {
@@ -58,26 +55,23 @@ async function getMemberById(req, res) {
 }
 
 async function getMembersWithLoans(req, res) {
-  let token = req.headers["authorization"].split(" ")[1];
-
   try {
-    let user = await tokenVerifier(token);
-    if (user) {
-      let sql = await mssql.connect(config);
+    let user = req.user;
 
-      if (sql.connected) {
-        const request = sql.request();
+    let sql = await mssql.connect(config);
 
-        let result = await request.execute("GetMembersWithLoansProcedure");
+    if (sql.connected) {
+      const request = sql.request();
 
-        res.json({
-          success: true,
+      let result = await request.execute("GetMembersWithLoansProcedure");
 
-          message: "Retrieved members with loans successfully",
+      res.json({
+        success: true,
 
-          data: result.recordset,
-        });
-      }
+        message: "Retrieved members with loans successfully",
+
+        data: result.recordset,
+      });
     }
   } catch (error) {
     if (error.message.includes("token") || error.message.includes("invalid")) {
@@ -100,7 +94,7 @@ async function registerUser(req, res) {
 
   try {
     let { value } = req;
-    console.log(value.Email);
+
     let hashed_pwd = await bcrypt.hash(user.Password, 8);
 
     let sql = await mssql.connect(config);
