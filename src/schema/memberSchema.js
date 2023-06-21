@@ -8,11 +8,13 @@ const new_member_Schema = joi
     Password: joi
       .string()
       .required()
-      .pattern(new RegExp("^[a-zA-Z0-9]{6,30}$")),
+      .pattern(new RegExp(
+        "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+      )),
     c_password: joi.ref("Password"),
     Email: joi
       .string()
-      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } }),
+      .email({ tlds: { allow: false } }),
   })
   .with("Password", "c_password");
 
