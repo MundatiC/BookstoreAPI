@@ -4,8 +4,7 @@ const bcrypt = require("bcrypt");
 
 const getAUser = require('../utils/getAMember')
 const { tokenGenerator } = require('../utils/token');
-const { newMemberValidator } = require("../validators/newMemberValidator");
-const { tokenVerifier } = require('../utils/token')
+
 
 async function getMemberById(req, res) {
   try {
