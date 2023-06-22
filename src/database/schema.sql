@@ -27,6 +27,7 @@ CREATE TABLE Library.Loans (
   MemberID INT NOT NULL,
   LoanDate DATE NOT NULL,
   ReturnDate DATE NOT NULL,
+  Status VARCHAR(20) NOT NULL,
   FOREIGN KEY (BookID) REFERENCES Library.Books (BookID),
   FOREIGN KEY (MemberID) REFERENCES Library.Members (MemberID)
 );
