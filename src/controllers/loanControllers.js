@@ -19,31 +19,38 @@ async function borrowBook(req, res) {
         const request = sql.request();
         request.input("MemberID", user.MemberID);
         request.input("BookID", bookID);
-        let result = await request.execute("BorrowBookProcedure");
-
-        if (result.recordset.length === 0) {
+        try {
+          let result = await request.execute("BorrowBookProcedure");
+          if (result.recordset.length === 0) {
          
           
-          res.json({
-            success: false,
-            message: "Member or book not found",
-          });
-        } else {
-          res.json({
-            success: true,
-            message: "Book borrowed successfully",
-            data: result.recordset[0],
-          });
-          const BookName = result.recordset[0].Title;
-          const message = {
-            to: user.Email,
-            from: process.env.EMAIL_USER,
-            subject: "Book Borrowing from Bookstore API",
-            text: `Dear ${user.Name},\n\nThank you for borrowing ${BookName}, a book from BookstoreAPI. We have successfully processed your request. The book is now available for you to enjoy.\n\nPlease remember to return the book by the due date to avoid any late fees. If you have any questions or need assistance, feel free to contact our support team.\n\nHappy reading!\n\nThank you,\nThe BookstoreAPI Team`,
-          };
-          await sendMail(message);
+            res.json({
+              success: false,
+              message: "Member or book not found",
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "Book borrowed successfully",
+              data: result.recordset[0],
+            });
+            const BookName = result.recordset[0].Title;
+            const message = {
+              to: user.Email,
+              from: process.env.EMAIL_USER,
+              subject: "Book Borrowing from Bookstore API",
+              text: `Dear ${user.Name},\n\nThank you for borrowing ${BookName}, a book from BookstoreAPI. We have successfully processed your request. The book is now available for you to enjoy.\n\nPlease remember to return the book by the due date to avoid any late fees. If you have any questions or need assistance, feel free to contact our support team.\n\nHappy reading!\n\nThank you,\nThe BookstoreAPI Team`,
+            };
+            await sendMail(message);
+            
+          }
+        } catch (error) {
+          res.send(error.precedingErrors[0].originalError.info.message)
           
         }
+       
+
+       
       }
 
 

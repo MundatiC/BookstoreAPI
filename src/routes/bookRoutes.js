@@ -9,13 +9,14 @@ const {
 } = require("../controllers/bookControllers");
 
 const tokenValidateMiddleware = require("../middlewares/tokenValidateMiddleware");
+const adminTokenValidation = require("../middlewares/adminTokenValidation")
 const newBookMiddleware = require("../middlewares/newBookMiddleware");
 
 bookRouter.get("/books", tokenValidateMiddleware, displayAllBooks);
 bookRouter.get("/books/:id", tokenValidateMiddleware, displayBookById);
 bookRouter.post(
   "/books",
-  tokenValidateMiddleware,
+  adminTokenValidation,
   newBookMiddleware,
   createBook
 );
