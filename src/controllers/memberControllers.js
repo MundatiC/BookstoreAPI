@@ -109,7 +109,7 @@ async function registerUser(req, res) {
         .input("ContactNumber", value.ContactNumber)
         .input("Password", hashed_pwd)
         .input("Email", value.Email)
-        .execute("InsertMemberProcedure");
+        .execute("InsertAdminProcedure");
 
       // try {
       //   await sendMail(value.Name, value.Email);
@@ -155,6 +155,7 @@ async function loginUser(req, res) {
           MemberID: user.MemberID,
           Email: user.Email,
           Name: user.Name,
+          Role: user.Role
         });
         console.log(token);
 

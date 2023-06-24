@@ -11,10 +11,11 @@ const {
 const sendMail = require('../utils/sendMail');
 const newUserMiddleware = require("../middlewares/newUserMiddleware");
 const tokenValidateMiddleware = require("../middlewares/tokenValidateMiddleware");
+const adminTokenValidation = require("../middlewares/adminTokenValidation")
 
 memberRouter.get("/members/:id", tokenValidateMiddleware, getMemberById);
 
-memberRouter.get("/loans/members", tokenValidateMiddleware, getMembersWithLoans);
+memberRouter.get("/loans/members", adminTokenValidation, getMembersWithLoans);
 
 memberRouter.post("/register", newUserMiddleware, registerUser);
 
