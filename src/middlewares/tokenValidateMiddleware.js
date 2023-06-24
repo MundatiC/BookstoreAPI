@@ -7,11 +7,15 @@ async function tokenValidateMiddleware (req, res, next){
          if(!token) return next({status:400, message: 'Token not provided'})
         let user = await tokenVerifier(token);
         let role = user.Role;
-      if (role === "user" || role === "Admin") {
-        next();
-      } else {
-        next({ status: 401, message: "Unauthorized" });
-      }
+        if(user){
+            if (role === "user" || role === "Admin") {   req.user = user;
+                next();
+              } else {
+                next({ status: 401, message: "Unauthorized" });
+              }
+
+        }
+     
   
     } catch (error) {
   
