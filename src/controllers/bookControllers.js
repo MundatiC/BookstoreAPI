@@ -124,15 +124,22 @@ async function createBook(req, res) {
 
           .input("Status", Status);
 
-        let result = await request.execute("InsertBook");
-
-        res.json({
-          success: true,
-
-          message: "Book created successfully",
-
-          data: result.recordset,
-        });
+          try {
+            let result = await request.execute("InsertBook");
+            if(result.recordset.length > 0){
+            res.json({
+              success: true,
+    
+              message: "Book created successfully",
+    
+              data: result.recordset,
+            });
+          } 
+            
+          } catch (error) {
+            res.send(error.originalError.info.message)
+            
+          }
       }
     }
   } catch (error) {
