@@ -1,6 +1,7 @@
 const mssql = require("mssql");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
+const createMarkup = require("../utils/createMarkup");
 require("dotenv").config();
 
 const getAUser = require("../utils/getAMember");
@@ -8,8 +9,6 @@ const { tokenGenerator } = require("../utils/token");
 const { newMemberValidator } = require("../validators/newMemberValidator");
 const { tokenVerifier } = require("../utils/token");
 const sendMail = require("../utils/sendMail");
-
-
 
 async function getMemberById(req, res) {
   try {
@@ -109,21 +108,25 @@ async function registerUser(req, res) {
         .input("ContactNumber", value.ContactNumber)
         .input("Password", hashed_pwd)
         .input("Email", value.Email)
-        .execute("InsertAdminProcedure");
+        .execute("InsertMemberProcedure");
 
       // try {
       //   await sendMail(value.Name, value.Email);
       // } catch (error) {
       //   console.log(error);
       // }
-     
+
       if (results.rowsAffected[0] > 0) {
-       
+        // templating
+        let html = await createMarkup("./src/views/signup.ejs", {
+          name: value.Name,
+          text: "We are thrilled to have you as a new member of our community. This email serves as a warm introduction and a guide to help you get started on our platform.",
+        });
         const message = {
           to: value.Email,
           from: process.env.EMAIL_USER,
           subject: "Hello from Bookstore API",
-          text: `Dear ${value.Name},\n Welcome to BookstoreAPI! We're thrilled to have you as a new member of our community. This email serves as a warm introduction and a guide to help you get started on our platform.`,
+          html: html,
         };
         await sendMail(message);
         console.log(results);
@@ -155,7 +158,7 @@ async function loginUser(req, res) {
           MemberID: user.MemberID,
           Email: user.Email,
           Name: user.Name,
-          Role: user.Role
+          Role: user.Role,
         });
         console.log(token);
 
