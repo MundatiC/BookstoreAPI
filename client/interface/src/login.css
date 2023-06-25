@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f6f5f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  height: 100vh;
+  margin: -20px 0 50px;
+}
+
+.sign-up-form {
+  width: 300px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+  background: #fff;
+  padding: 20px;
+  margin: 8% auto;
+  text-align: center;
+  border-radius: 2rem;
+}
+
+.sign-up-form h1 {
+  color: #1c8adb;
+  margin-bottom: 30px;
+}
+
+.input-box {
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 90%;
+  border: 1px solid #999;
+  outline: none;
+}
+
+button {
+  color: #fff;
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 15px;
+  margin: 10px 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.sign-btn {
+  background-color: #1c8adb;
+}
+
+a {
+  text-decoration: none;
+}
+
+hr {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.or {
+  background: #fff;
+  width: 30px;
+  margin: -19px auto 10px;
+}
+
+.title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.paragraph {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
+}
