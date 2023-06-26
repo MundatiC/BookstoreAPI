@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "../navbar.css";
 import logo from "../images/logo.png";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   const navRef = useRef();
@@ -16,11 +17,10 @@ function Navbar() {
     <div>
       <header>
         <nav ref={navRef}>
-          <a href="/#">Home</a>
-          <a href="/#">About</a>
-          <a href="/#">Available Books</a>
-          <a href="/#">Contact Us</a>
-
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/availablebooks">Available Books</NavLink>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/contactus">Contact Us</NavLink>
           {/* //smaller screens will close the navbar with this */}
           <button className="nav-btn nav-close-btn" onClick={shownavbar}>
             <FaTimes />

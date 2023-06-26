@@ -3,6 +3,9 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import Home from "./components/Home";
 import AvailableBooks from "./components/AvailableBooks";
+import ContactUs from "./components/ContactUs";
+import About from "./components/About";
+
 import {
   createBrowserRouter,
   Route,
@@ -18,6 +21,8 @@ const myRouter = createBrowserRouter(
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/availablebooks" element={<AvailableBooks />} />
+      <Route path="/contactus" element={<ContactUs />} />
+      <Route path="/about" element={<About />} />
     </Route>
   )
 );
