@@ -2,8 +2,13 @@ import React from "react";
 import { BiSolidUserCircle } from "react-icons/bi";
 import "../navbar.css";
 import logo from "../images/logo.png";
+import { useNavigate } from "react-router-dom";
 
 function TopBar() {
+  const navigate = useNavigate();
+  function login() {
+    navigate("/signup");
+  }
   return (
     <div className="top">
       <img src={logo} alt="logo" />
@@ -14,7 +19,7 @@ function TopBar() {
           </span>
         </span>
         <button>
-          <BiSolidUserCircle />
+          <BiSolidUserCircle onClick={login} />
         </button>
       </div>
     </div>

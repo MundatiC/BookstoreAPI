@@ -1,9 +1,11 @@
 import React from "react";
 import "../sign.css";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = ({ toggleSignIn }) => {
+  const navigate = useNavigate();
   const handleSignUpClick = () => {
-    toggleSignIn(false);
+    navigate("/signup");
   };
 
   return (
