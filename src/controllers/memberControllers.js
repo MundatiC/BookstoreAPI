@@ -160,7 +160,9 @@ async function loginUser(req, res) {
           Name: user.Name,
           Role: user.Role,
         });
+        
         console.log(token);
+      
 
         res.json({
           success: true,
