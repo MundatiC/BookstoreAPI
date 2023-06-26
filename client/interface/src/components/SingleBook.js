@@ -1,34 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../SingleBook.css";
-import bookImage from "./product-item3.jpg";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const SingleBook = () => {
+  const location = useLocation();
+  const { book } = location.state;
+  const [bookData, setBookData] = useState(null);
+
+  useEffect(() => {
+    const fetchBookData = async () => {
+        const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+        console.log(token)
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the request headers
+          },
+        };
+      try {
+        const response = await axios.get(`http://localhost:4040/books/${book.BookID}`, config);
+        console.log(response)
+        setBookData(response.data.data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBookData();
+  }, [book.BookID]);
+
+  if (!bookData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <section className="bg-sand padding-large">
       <div className="container">
         <div className="row">
           <div className="col-md-6">
             <a href="#" className="product-image">
-              <img src={bookImage} alt="Book Image" />
+              <img src={bookData.ImageUrl} alt="Book Image" />
             </a>
           </div>
 
           <div className="col-md-6 pl-5">
             <div className="product-detail">
-              <h1>Simple Way of Peace</h1>
+              <h1>{bookData.Title}</h1>
               <p>Fiction</p>
 
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat.
-              </p>
-              <p>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
+              <p>{bookData.Description}</p>
 
               <button type="submit" name="borrow" value="27545" className="button">
                 Borrow

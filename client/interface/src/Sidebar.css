@@ -1,27 +1,76 @@
 .sidebar {
-    background-color: #f4f4f4;
-    width: 200px;
-    padding: 20px;
-    position: sticky;
+    position: fixed;
     top: 0;
-   
+    left: 0;
+    width: 240px;
+    height: 100%;
+    background-color: #f5f5f5;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+    transition: width 0.3s ease; /* Add transition for smooth animation */
   }
   
-  .sidebar ul {
-    list-style: none;
+  .sidebar.collapsed {
+    width: 80px; /* Adjust the width when the sidebar is collapsed */
+  }
+  
+  .sidebar-header {
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .sidebar-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  
+  .sidebar-menu {
+    list-style-type: none;
     padding: 0;
+    margin: 0;
   }
   
-  .sidebar li {
-    margin-bottom: 10px;
+  .sidebar-item {
+    padding: 15px;
   }
   
-  .sidebar a {
-    text-decoration: none;
+  .sidebar-link {
+    display: flex;
+    align-items: center;
     color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
   }
   
-  .sidebar a:hover {
-    color: #000;
+  .sidebar-link i {
+    margin-right: 10px;
   }
   
+  .sidebar-link:hover {
+    color: #ff0000;
+  }
+  
+  .sidebar-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 240px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ccc;
+    transition: width 0.3s ease; /* Add transition for smooth animation */
+  }
+  
+  .sidebar-footer.collapsed {
+    width: 80px; /* Adjust the width when the sidebar is collapsed */
+  }
+  
+  .sidebar-footer-text {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #777;
+  }
+  
+
