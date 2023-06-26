@@ -36,7 +36,7 @@ const SignUp = () => {
     console.log(registrationData);
     try {
       const response = await axios.post(
-        "http://localhost:5000/register",
+        "http://localhost:4040/register",
         registrationData
       );
     } catch (error) {
