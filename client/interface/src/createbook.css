@@ -1,0 +1,51 @@
+.book-form {
+  width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  padding: 20px;
+  margin: 20px auto;
+}
+
+.book-form h1 {
+  color: #1c8adb;
+  margin-bottom: 20px;
+}
+
+.input-box {
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  border: 1px solid #999;
+  outline: none;
+}
+
+textarea.input-box {
+  resize: vertical;
+}
+
+button.sign-btn {
+  color: #fff;
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 15px;
+  margin: 10px 0;
+  outline: none;
+  cursor: pointer;
+  background-color: #1c8adb;
+  border: none;
+}
+
+button.sign-btn:hover {
+  background-color: #0f6dbc;
+}
+
+button.sign-btn:active {
+  transform: scale(0.95);
+}
+
+button.sign-btn:focus {
+  outline: none;
+}
