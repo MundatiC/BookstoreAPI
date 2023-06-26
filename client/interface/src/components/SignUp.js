@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BiArrowBack } from "react-icons/bi";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -52,8 +53,7 @@ const SignUp = () => {
   return (
     <div>
       <div className="backhome" onClick={backHome}>
-        <i className="fa-regular fa-backward-step"></i>
-        <span>Back Home</span>
+        <BiArrowBack />
       </div>
       <form className="sign-up-form" onSubmit={handleSubmit}>
         <h1>Create Account</h1>
