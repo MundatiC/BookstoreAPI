@@ -5,6 +5,8 @@ import mainbanner1 from "../images/main-banner1.jpg";
 import TopBar from "./TopBar";
 import Navbar from "./Navbar";
 import kigogo from "../images/kigogo.png";
+import Header from "./SideBar";
+import SideBar from "./SideBar";
 
 const bookCards = [];
 for (let i = 0; i < 4; i++) {
@@ -28,6 +30,7 @@ function Home() {
     <>
       <TopBar />
       <Navbar />
+      <SideBar />
       <div>
      <section id="billboard">
 

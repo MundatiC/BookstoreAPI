@@ -10,7 +10,7 @@
   /*----- Billboard
   --------------------------------------------------------------*/
   #billboard .main-slider {
-      padding: 120px 0;
+      padding: 0px 0;
   }
   .main-slider .slider-item {
       display: flex;

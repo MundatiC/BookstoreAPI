@@ -1,5 +1,5 @@
 import React from "react";
-import "./singleBook.css";
+import "../SingleBook.css";
 import bookImage from "./product-item3.jpg";
 
 const SingleBook = () => {
