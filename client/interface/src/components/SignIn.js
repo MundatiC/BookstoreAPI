@@ -7,22 +7,31 @@ const SignIn = ({ toggleSignIn }) => {
   const handleSignUpClick = () => {
     navigate("/signup");
   };
+  const backHome = () => {
+    navigate("/");
+  };
 
   return (
-    <div className="sign-up-form">
-      <h1>Sign In</h1>
-      <input type="email" placeholder="Email" className="input-box" />
-      <input type="password" placeholder="Password" className="input-box" />
-      <a href="#" className="forgot-password">
-        Forgot your password?
-      </a>
-      <button className="sign-btn">Sign In</button>
-      <p>
-        Don't have an account?{" "}
-        <a href="#" onClick={handleSignUpClick}>
-          Sign Up
+    <div>
+      <div className="backhome" onClick={backHome}>
+        <i class="fa-regular fa-backward-step"></i>
+        <span>Back Home</span>
+      </div>
+      <div className="sign-up-form">
+        <h1>Sign In</h1>
+        <input type="email" placeholder="Email" className="input-box" />
+        <input type="password" placeholder="Password" className="input-box" />
+        <a href="#" className="forgot-password">
+          Forgot your password?
         </a>
-      </p>
+        <button className="sign-btn">Sign In</button>
+        <p>
+          Don't have an account?{" "}
+          <a href="#" onClick={handleSignUpClick}>
+            Sign Up
+          </a>
+        </p>
+      </div>
     </div>
   );
 };

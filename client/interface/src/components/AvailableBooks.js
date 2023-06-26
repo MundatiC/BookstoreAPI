@@ -1,13 +1,15 @@
 import React from "react";
-import kigogo from "../images/kigogo.png";
+import book from "../images/product-item1.jpg";
 import "../AvailableBooks.css";
+import TopBar from "./TopBar";
+import Navbar from "./Navbar";
 
 const bookCards = [];
 
 for (let i = 0; i < 30; i++) {
   bookCards.push(
     <div className="book-card" key={i}>
-      <img src={kigogo} alt="" />
+      <img src={book} alt="" />
       <h6>
         Author:
         <span>Pauline Kea</span>
@@ -23,7 +25,8 @@ for (let i = 0; i < 30; i++) {
 function AvailableBooks() {
   return (
     <div className="available-books">
-      {/* create jsx for a grid tempalte*/}
+      <TopBar />
+      <Navbar />
       <h3>Here are some of the books available for borrowing:</h3>
       <div className="book-grid">{bookCards}</div>
     </div>

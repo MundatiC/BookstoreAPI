@@ -3,7 +3,16 @@
 * {
   box-sizing: border-box;
 }
+:root {
+  --maincolor: #5767aa;
+  --secondarycolor: #db2b39;
+  --textcolor: #eee;
 
+  --primary: #007fff;
+  --secondary: #6f7e8c;
+  --box: #f5f5f5;
+  --text: #212121;
+}
 body {
   background: #f6f5f7;
   display: flex;
@@ -13,17 +22,34 @@ body {
 }
 
 .sign-up-form {
-  width: 300px;
+  width: 25%;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
   background: #fff;
   padding: 20px;
-  margin: 8% auto;
+  margin: 10% auto;
   text-align: center;
-  border-radius: 2rem;
+  border-radius: 1rem;
+  position: relative;
+}
+.backhome {
+  background: #fff;
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  margin: 1rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--maincolor);
+  cursor: pointer;
+  border: 2px solid var(--maincolor);
+  border-radius: 0.3rem;
+  padding: 0.2rem;
 }
 /*  */
 .sign-up-form h1 {
-  color: #1c8adb;
+  color: var(--maincolor);
   margin-bottom: 30px;
 }
 
@@ -41,7 +67,7 @@ body {
 /* } */
 
 .sign-btn {
-  background-color: #1c8adb;
+  background-color: var(--maincolor);
   color: #fff;
   width: 100%;
   padding: 10px;
