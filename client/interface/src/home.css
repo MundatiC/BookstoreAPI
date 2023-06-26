@@ -1,0 +1,99 @@
+#header {
+    padding: 40px 0;
+  }
+  #header .menu-list a {
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+  
+  /*----- Billboard
+  --------------------------------------------------------------*/
+  #billboard .main-slider {
+      padding: 120px 0;
+  }
+  .main-slider .slider-item {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+  }
+  .main-slider .banner-content {
+      width: 35%;
+      margin-top: 90px;
+      margin-right: 175px;
+  }
+  .banner-content h2.banner-title {
+      font-size: 4.5em;
+      font-weight: 500;
+      color: #222;
+  }
+  .banner-content p {
+      margin: 0 0 60px 0;
+  }
+  #billboard .slick-dots {
+      left: 200px;
+      bottom: 110px;
+      width: 10%;
+      text-align: inherit;
+  }
+  #billboard button.slick-arrow {
+      background: transparent;
+      border: 1px solid #E5E3DA;
+      padding: initial;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      position: absolute;
+      top: 270px;
+      z-index: 5;
+      cursor: pointer;
+  }
+  #billboard button.slick-arrow:hover{
+      border: 1px solid #74642F;
+      background-color: #E5E3DA;
+  }
+  #billboard button.prev.slick-arrow {
+      left: 110px;
+  }
+  #billboard button.next.slick-arrow {
+      right: 110px;
+  }
+  #billboard .slick-arrow i.icon {
+      color: #8C8C8C;
+  }
+  
+  @media screen and (max-width: 1366px) {
+    #billboard button.prev.slick-arrow {
+        left: 0;
+    }
+    #billboard button.next.slick-arrow {
+        right: 0;
+    }
+  }
+  
+  @media screen and (max-width: 999px) {
+    .banner-content h2.banner-title {
+        font-size: 3.5em;
+    }
+    #billboard .main-slider {
+        margin: 70px 0;
+        padding: 0;
+    }
+    .main-slider .slider-item {
+        flex-wrap: wrap;
+        text-align: center;
+        flex-direction: column-reverse;
+    }
+    .main-slider .banner-content {
+        width: 100%;
+        margin-top: 60px;
+        margin-right: 0;
+        margin-bottom: 80px;
+    }
+    #billboard .slick-dots {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
+  }
