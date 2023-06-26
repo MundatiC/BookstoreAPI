@@ -1,0 +1,34 @@
+h3 {
+  /* center h3 */
+  text-align: center;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #000000;
+  margin-top: 1.3rem;
+  margin-bottom: 1.3rem;
+}
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+  margin: 0 5rem;
+}
+.book-card {
+  margin: 1rem auto;
+}
+@media (max-width: 1268px) {
+  .book-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .book-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
