@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import AvailableBooks from "./components/AvailableBooks";
 import ContactUs from "./components/ContactUs";
 import About from "./components/About";
+import BookForm from "./components/BookForm";
 
 import {
   createBrowserRouter,
@@ -22,7 +23,7 @@ const myRouter = createBrowserRouter(
       <Route path="/signin" element={<SignIn />} />
       <Route path="/availablebooks" element={<AvailableBooks />} />
       <Route path="/contactus" element={<ContactUs />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/about" element={<BookForm />} />
     </Route>
   )
 );
