@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import TopBar from "./components/TopBar";
-import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import AvailableBooks from "./components/AvailableBooks";
 import {
