@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = ({ toggleSignIn }) => {
+  const navigate = useNavigate();
   const handleSignInClick = () => {
-    toggleSignIn(true);
+    navigate("/signin");
   };
 
   return (
