@@ -29,15 +29,15 @@ const SignIn = ({ toggleSignIn }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4040/login",
+        "http://localhost:5000/login",
         loginData
       );
       const token = response.data.token;
       localStorage.setItem("token", token);
 
       // Handle successful login response here
-      
-      // navigate("/");
+
+      navigate("/");
     } catch (error) {
       if (error.response) {
         console.error("Server Error:", error.response.data);

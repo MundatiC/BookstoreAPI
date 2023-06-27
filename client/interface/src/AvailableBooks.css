@@ -21,6 +21,7 @@ h3 {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 .book-card img {
   width: 100%;

@@ -16,16 +16,15 @@ function AvailableBooks() {
   useEffect(() => {
     const getBooks = async () => {
       try {
-        
         const token = localStorage.getItem("token"); // Retrieve the token from localStorage
-        console.log(token)
+        console.log(token);
         const config = {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the request headers
           },
         };
 
-        const response = await axios.get("http://localhost:4040/books", config);
+        const response = await axios.get("http://localhost:5000/books", config);
         console.log(response.data.data);
         setBooks(response.data.data);
       } catch (error) {
@@ -43,7 +42,11 @@ function AvailableBooks() {
       <h3>Here are some of the books available for borrowing:</h3>
       <div className="book-grid">
         {books.map((book) => (
-          <div className="book-card" key={book.BookID} onClick={() => handleBookClick(book)}>
+          <div
+            className="book-card"
+            key={book.BookID}
+            onClick={() => handleBookClick(book)}
+          >
             <img src={book.ImageUrl} alt={book.Title} />
             <p className="title">{book.Title}</p>
             <p>Author: {book.Author}</p>
