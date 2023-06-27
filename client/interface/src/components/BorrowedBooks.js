@@ -8,9 +8,30 @@ import { useNavigate } from "react-router-dom";
 
 function BorrowedBooks() {
   const navigate = useNavigate();
-  const handleBookClick = (book) => {
-    navigate(`/borrowedbooks/${book.BookID}`, { state: { book } });
+  const handleBookClick = async (book) => {
+    console.log(book);
+   
+    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the token in the request headers
+      },
+    };
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/return`,
+        { bookID: book.BookID },
+        config
+      );
+      console.log(`Returning book with ID: ${book.BookID}`);
+      console.log(response);
+      navigate("/returned-books");
+    
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -24,10 +45,7 @@ function BorrowedBooks() {
           },
         };
 
-        const response = await axios.get(
-          "http://localhost:5000/borrowedbooks",
-          config
-        );
+        const response = await axios.get("http://localhost:5000/borrowedBooksByID", config);
         console.log(response.data.data);
         setBooks(response.data.data);
       } catch (error) {
@@ -38,6 +56,28 @@ function BorrowedBooks() {
     getBorrowedBooks();
   }, []);
 
+  // const handleReturn = async (e) => {
+  //   e.preventDefault();
+  //   const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+  //   const config = {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`, // Include the token in the request headers
+  //     },
+  //   };
+  //   try {
+  //     const response = await axios.post(
+  //       `http://localhost:5000/return`,
+  //       { bookID: books.BookID },
+  //       config
+  //     );
+  //     console.log(`Borrowing book with ID: ${book.BookID}`);
+  //     // console.log(response);
+  //     navigate("/returnedbooks");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   return (
     <>
       <TopBar />
@@ -45,14 +85,14 @@ function BorrowedBooks() {
       <div className="padding-large">
         <div className="container">
           <div className="books-grid">
-            {books.map((book) => (
+            {books?.map((book) => (
               <div
                 className="book-style"
                 key={book.BookID}
-                onClick={() => handleBookClick(book)}
+               
               >
-                <img src={bookImage} alt="Book" className="book-item" />
-                <button type="button" className="borrow">
+                <img src={book.ImageUrl} alt="Book" className="book-item" />
+                <button type="button" className="borrow"  onClick={() => handleBookClick(book)}>
                   Return
                 </button>
                 <div className="details">
@@ -60,7 +100,7 @@ function BorrowedBooks() {
                   <p>by {book.Author}</p>
                 </div>
               </div>
-            ))}
+            ))  }
           </div>
         </div>
       </div>

@@ -48,13 +48,13 @@ function OverdueLoans() {
                 key={loan.LoanID}
                 onClick={() => handleBookClick(loan)}
               >
-                <img src={bookImage} alt="Book" className="book-item" />
+                <img src={loan.ImageUrl} alt="Book" className="book-item" />
                 <button type="button" className="borrow">
                   View Details
                 </button>
                 <div className="details">
                   <h3>{loan.Title}</h3>
-                  <p>by {loan.Author}</p>
+                  <p>Overdue Days: {loan.OverdueDays}</p>
                 </div>
               </div>
             ))}
