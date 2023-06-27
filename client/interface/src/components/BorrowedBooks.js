@@ -83,7 +83,6 @@ function BorrowedBooks() {
       <TopBar />
       <Navbar />
       <div className="padding-large">
-
         <div className="container">
           <div className="books-grid">
             {books?.map((book) => (
@@ -105,7 +104,6 @@ function BorrowedBooks() {
           </div>
         </div>
       </div>
-
     </>
   );
 }
