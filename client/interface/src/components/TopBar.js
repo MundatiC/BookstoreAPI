@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function TopBar() {
   const navigate = useNavigate();
   function login() {
-    navigate("/signup");
+    navigate("/SignIn");
   }
   return (
     <div className="top">
