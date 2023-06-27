@@ -124,7 +124,124 @@ async function returnBook(req, res) {
   }
 }
 
+async function GetBorrowedBooksByUser(req, res) {
+  try {
+    let user = req.user;
+    console.log(user);
+    let sql = await mssql.connect(config);
+    if (sql.connected) {
+      const request = sql.request();
+      request.input("MemberID", user.MemberID);
+      let result = await request.execute("Library.GetBorrowedBooksByUser");
+      if (result.recordset.length === 0) {
+        res.json({
+          success: false,
+          message: "No borrowed books found",
+        });
+      } else {
+        res.json({
+          success: true,
+          message: "Retrieved borrowed books successfully",
+          data: result.recordset,
+        });
+      }
+    }
+  } catch (error) {
+    if (error.message.includes("token") || error.message.includes("invalid")) {
+      res.status(403).json({
+        success: false,
+        message: "Login again",
+      });
+    } else if (error.message.includes("expired")) {
+      res.status(403).json({
+        success: false,
+        message: "Token expired login again",
+      });
+    }
+  }
+}
+
+async function GetReturnedBooksByUser(req, res){
+  try {
+    let user = req.user;
+    console.log(user);
+    let sql = await mssql.connect(config);
+    if (sql.connected) {
+      const request = sql.request();
+      request.input("MemberID", user.MemberID);
+      let result = await request.execute("Library.GetReturnedBooksByUser");
+      if (result.recordset.length === 0) {
+        res.json({
+          success: false,
+          message: "No borrowed books found",
+        });
+      } else {
+        res.json({
+          success: true,
+          message: "Retrieved borrowed books successfully",
+          data: result.recordset,
+        });
+      }
+    }
+  } catch (error) {
+    if (error.message.includes("token") || error.message.includes("invalid")) {
+      res.status(403).json({
+        success: false,
+        message: "Login again",
+      });
+    } else if (error.message.includes("expired")) {
+      res.status(403).json({
+        success: false,
+        message: "Token expired login again",
+      });
+    }
+  }
+  
+}
+
+
+async function OverdueBooksByUser(req, res){
+  try {
+    let user = req.user;
+    console.log(user);
+    let sql = await mssql.connect(config);
+    if (sql.connected) {
+      const request = sql.request();
+      request.input("MemberID", user.MemberID);
+      let result = await request.execute("Library.GetOverdueLoansByMember");
+      if (result.recordset.length === 0) {
+        res.json({
+          success: false,
+          message: "No borrowed books found",
+        });
+      } else {
+        res.json({
+          success: true,
+          message: "Retrieved borrowed books successfully",
+          data: result.recordset,
+        });
+      }
+    }
+  } catch (error) {
+    if (error.message.includes("token") || error.message.includes("invalid")) {
+      res.status(403).json({
+        success: false,
+        message: "Login again",
+      });
+    } else if (error.message.includes("expired")) {
+      res.status(403).json({
+        success: false,
+        message: "Token expired login again",
+      });
+    }
+  }
+
+}
+
 module.exports = {
   borrowBook,
   returnBook,
+  GetBorrowedBooksByUser,
+  GetReturnedBooksByUser,
+  OverdueBooksByUser
 };
