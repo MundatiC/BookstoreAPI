@@ -13,7 +13,7 @@ const SingleBook = () => {
   useEffect(() => {
     const fetchBookData = async () => {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
-      console.log(token);
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the request headers
@@ -24,7 +24,7 @@ const SingleBook = () => {
           `http://localhost:5000/books/${book.BookID}`,
           config
         );
-        console.log(response);
+
         setBookData(response.data.data[0]);
       } catch (error) {
         console.error(error);
@@ -40,6 +40,28 @@ const SingleBook = () => {
   function backAvailableBooks() {
     navigate("/availablebooks");
   }
+  // handleBorrow function
+  const handleBorrow = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`, // Include the token in the request headers
+      },
+    };
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/borrow`,
+        { bookID: book.BookID },
+        config
+      );
+      console.log(`Borrowing book with ID: ${book.BookID}`);
+      // console.log(response);
+      navigate("/borrowed-books");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <section className="bg-sand padding-large">
       <div className="backhome" onClick={backAvailableBooks}>
@@ -65,6 +87,7 @@ const SingleBook = () => {
                 name="borrow"
                 value="27545"
                 className="button"
+                onClick={handleBorrow}
               >
                 Borrow
               </button>
