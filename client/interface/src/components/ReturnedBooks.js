@@ -24,7 +24,10 @@ function ReturnedBooks() {
           },
         };
 
-        const response = await axios.get("http://localhost:5000/returnedbooks", config);
+        const response = await axios.get(
+          "http://localhost:5000/returnedbooks",
+          config
+        );
         console.log(response.data.data);
         setBooks(response.data.data);
       } catch (error) {
@@ -40,7 +43,6 @@ function ReturnedBooks() {
       <TopBar />
       <Navbar />
       <div className="padding-large">
-
         <div className="container">
           <div className="books-grid">
             {books.map((book) => (
@@ -49,13 +51,14 @@ function ReturnedBooks() {
                 key={book.BookID}
                 onClick={() => handleBookClick(book)}
               >
-                <img src={bookImage} alt="Book" className="book-item" />
+                <img src={book.ImageUrl} alt="Book" className="book-item" />
                 <button type="button" className="borrow">
                   View Details
                 </button>
                 <div className="details">
                   <h3>{book.Title}</h3>
-                  <p>by {book.Author}</p>
+                  <p>Author: {book.Author}</p>
+                  <p>Date returned:{book.ReturnDate.split("T")[0]}</p>
                 </div>
               </div>
             ))}

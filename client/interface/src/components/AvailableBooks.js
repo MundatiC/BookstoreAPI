@@ -5,6 +5,7 @@ import TopBar from "./TopBar";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "./SideBar";
 
 function AvailableBooks() {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ function AvailableBooks() {
     <div className="available-books">
       <TopBar />
       <Navbar />
+      <Sidebar />
       <h3>Here are some of the books available for borrowing:</h3>
       <div className="book-grid">
         {books.map((book) => (
