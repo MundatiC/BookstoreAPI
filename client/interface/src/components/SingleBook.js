@@ -13,7 +13,7 @@ const SingleBook = () => {
   useEffect(() => {
     const fetchBookData = async () => {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
-
+      console.log(token);
       const config = {
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the request headers
@@ -78,8 +78,7 @@ const SingleBook = () => {
           <div className="col-md-6 pl-5">
             <div className="product-detail">
               <h1>{bookData.Title}</h1>
-              <p>Fiction</p>
-
+              <p>Author: {bookData.Author}</p>
               <p>{bookData.Description}</p>
 
               <button

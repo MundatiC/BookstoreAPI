@@ -24,7 +24,10 @@ function BorrowedBooks() {
           },
         };
 
-        const response = await axios.get("http://localhost:5000/borrowedbooks", config);
+        const response = await axios.get(
+          "http://localhost:5000/borrowedbooks",
+          config
+        );
         console.log(response.data.data);
         setBooks(response.data.data);
       } catch (error) {
@@ -40,7 +43,6 @@ function BorrowedBooks() {
       <TopBar />
       <Navbar />
       <div className="padding-large">
-
         <div className="container">
           <div className="books-grid">
             {books.map((book) => (
@@ -62,7 +64,6 @@ function BorrowedBooks() {
           </div>
         </div>
       </div>
-
     </>
   );
 }
