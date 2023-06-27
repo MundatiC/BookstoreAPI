@@ -124,22 +124,20 @@ async function createBook(req, res) {
 
           .input("Status", Status);
 
-          try {
-            let result = await request.execute("InsertBook");
-            if(result.recordset.length > 0){
+        try {
+          let result = await request.execute("InsertBook");
+          if (result.recordset.length > 0) {
             res.json({
               success: true,
-    
+
               message: "Book created successfully",
-    
+
               data: result.recordset,
             });
-          } 
-            
-          } catch (error) {
-            res.send(error.originalError.info.message)
-            
           }
+        } catch (error) {
+          res.send(error.originalError.info.message);
+        }
       }
     }
   } catch (error) {
@@ -159,11 +157,50 @@ async function createBook(req, res) {
     }
   }
 }
+// checkBorrowedBooks
+async function checkBorrowedBooks(req, res) {
+  try {
+    let user = req.user;
+    console.log(user);
 
+    let sql = await mssql.connect(config);
+
+    if (sql.connected) {
+      let request = sql.request();
+
+      let result = await request.execute("getBorrowedBooks");
+
+      res.json({
+        success: true,
+
+        message: "Retrieved books successfully",
+
+        data: result.recordset,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    if (error.message.includes("token") || error.message.includes("invalid")) {
+      res.status(403).json({
+        success: false,
+
+        message: "Login again",
+      });
+    } else if (error.message.includes("expired")) {
+      res.status(403).json({
+        success: false,
+
+        message: "Token expired login again",
+      });
+    }
+  }
+}
 module.exports = {
   displayAllBooks,
 
   displayBookById,
 
   createBook,
+
+  checkBorrowedBooks,
 };

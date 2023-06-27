@@ -6,6 +6,7 @@ const {
   displayAllBooks,
   displayBookById,
   createBook,
+  checkBorrowedBooks,
 } = require("../controllers/bookControllers");
 
 const tokenValidateMiddleware = require("../middlewares/tokenValidateMiddleware");
@@ -14,5 +15,6 @@ const newBookMiddleware = require("../middlewares/newBookMiddleware");
 
 bookRouter.get("/books", tokenValidateMiddleware, displayAllBooks);
 bookRouter.get("/books/:id", tokenValidateMiddleware, displayBookById);
+bookRouter.get("/borrowedbooks", tokenValidateMiddleware, checkBorrowedBooks);
 bookRouter.post("/books", adminTokenValidation, newBookMiddleware, createBook);
 module.exports = bookRouter;

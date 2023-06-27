@@ -23,6 +23,7 @@
 /* css variables */
 
 header {
+  position: sticky;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -74,7 +75,7 @@ header .nav-btn {
   width: 10rem;
   height: 5rem;
   border-radius: 50%;
-  margin: 0 1rem 0 0;
+  margin: 0 0 0 9rem;
   object-fit: cover;
   object-position: center;
 }

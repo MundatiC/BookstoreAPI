@@ -15,32 +15,36 @@ const Sidebar = () => {
       <div className="sidebar-header">
         <h3 className="sidebar-title">Menu</h3>
         <div className="collapse-toggle" onClick={handleCollapseToggle}>
-          <i className={`fas ${collapsed ? "fa-chevron-right" : "fa-chevron-left"}`}></i>
+          <i
+            className={`fas ${
+              collapsed ? "fa-chevron-right" : "fa-chevron-left"
+            }`}
+          ></i>
         </div>
       </div>
       <ul className="sidebar-menu">
         <li className="sidebar-item">
           <Link to="/" className="sidebar-link">
             <i className="fas fa-home"></i>
-            Home
+            <span>Home</span>
           </Link>
         </li>
         <li className="sidebar-item">
           <Link to="/borrowed-books" className="sidebar-link">
-          <FaBook />
-            Books Borrowed
+            <FaBook />
+            <span>Books Borrowed</span>
           </Link>
         </li>
         <li className="sidebar-item">
           <Link to="/returned-books" className="sidebar-link">
             <FaUndo />
-            Returned Books
+            <span>Returned Books</span>
           </Link>
         </li>
         <li className="sidebar-item">
           <Link to="/overdue-books" className="sidebar-link">
-            <FaExclamationCircle/>
-            Overdue Books
+            <FaExclamationCircle />
+            <span>Overdue Books</span>
           </Link>
         </li>
       </ul>

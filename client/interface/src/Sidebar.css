@@ -1,76 +1,89 @@
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 240px;
-    height: 100%;
-    background-color: #f5f5f5;
-    overflow-y: auto;
-    border-right: 1px solid #ccc;
-    transition: width 0.3s ease; /* Add transition for smooth animation */
-  }
-  
-  .sidebar.collapsed {
-    width: 80px; /* Adjust the width when the sidebar is collapsed */
-  }
-  
-  .sidebar-header {
-    padding: 20px;
-    background-color: #333;
-    color: #fff;
-  }
-  
-  .sidebar-title {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
-  
-  .sidebar-menu {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sidebar-item {
-    padding: 15px;
-  }
-  
-  .sidebar-link {
-    display: flex;
-    align-items: center;
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .sidebar-link i {
-    margin-right: 10px;
-  }
-  
-  .sidebar-link:hover {
-    color: #ff0000;
-  }
-  
-  .sidebar-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 240px;
-    padding: 15px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ccc;
-    transition: width 0.3s ease; /* Add transition for smooth animation */
-  }
-  
-  .sidebar-footer.collapsed {
-    width: 80px; /* Adjust the width when the sidebar is collapsed */
-  }
-  
-  .sidebar-footer-text {
-    margin: 0;
-    font-size: 0.8rem;
-    color: #777;
-  }
-  
+:root {
+  --maincolor: #5767aa;
+  --secondarycolor: #db2b39;
+  --textcolor: #eee;
 
+  --primary: #007fff;
+  --secondary: #6f7e8c;
+  --box: #f5f5f5;
+  --text: #212121;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 180px;
+  height: 100%;
+  background-color: #f5f5f5;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+  transition: width 0.3s ease; /* Add transition for smooth animation */
+}
+
+.sidebar.collapsed {
+  width: 80px; /* Adjust the width when the sidebar is collapsed */
+}
+/* make only icons to be available when collapsed */
+.sidebar.collapsed .sidebar-item span {
+  display: none;
+}
+.sidebar-header {
+  padding: 0.7rem 1.5rem;
+  background-color: var(--maincolor);
+  color: #fff;
+  height: 75px;
+}
+
+.sidebar-title {
+  color: var(--textcolor);
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.sidebar-menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  padding: 15px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.sidebar-link span {
+  margin-left: 10px;
+}
+
+.sidebar-link:hover {
+  color: #ff0000;
+}
+
+.sidebar-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 240px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ccc;
+  transition: width 0.3s ease; /* Add transition for smooth animation */
+}
+
+.sidebar-footer.collapsed {
+  width: 80px; /* Adjust the width when the sidebar is collapsed */
+}
+
+.sidebar-footer-text {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #777;
+}
